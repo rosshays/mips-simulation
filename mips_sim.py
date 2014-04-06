@@ -1,3 +1,4 @@
+# USES 4 SPACES FOR INDENTATION
 import conversion as conv
 
 # convert an instruction to a binary string(s)

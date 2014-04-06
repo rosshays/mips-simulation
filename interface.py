@@ -1,3 +1,4 @@
+# USES TABS FOR INDENTATION
 import tkinter as tk
 
 def initialize(self, master, root):
@@ -6,7 +7,7 @@ def initialize(self, master, root):
 	self.create_widgets()
 	# default configuration of window
 	root.resizable(0,0)
-	root.geometry("1050x400")
+	root.geometry("1050x500")
 	root.wm_title("MIPS Simulation")
 	
 	
@@ -26,20 +27,26 @@ def lock_text(self):
 	self.stack_text["state"] = "disabled"
 	self.register_text["state"] = "disabled"
 
+def unlock_text(self):
+	self.input_text["state"] = "normal"
+	self.bin_text["state"] = "normal"
+	self.stack_text["state"] = "normal"
+	self.register_text["state"] = "normal"
+
 def create_text_boxes(self):
-	self.input_text = tk.Text(self, width = 32)
+	self.input_text = tk.Text(self, width = 32, height = 33)
 	self.input_text["background"] = "grey"
 	self.input_text.grid(column = 10, row = 0)
 		
-	self.bin_text = tk.Text(self, width = 32)
+	self.bin_text = tk.Text(self, width = 32, height = 33)
 	self.bin_text["background"] = "grey"
 	self.bin_text.grid(column = 15, row = 0)
 	
-	self.stack_text = tk.Text(self, width = 32)
+	self.stack_text = tk.Text(self, width = 32, height = 33)
 	self.stack_text["background"] = "grey"
 	self.stack_text.grid(column = 20, row = 0)
 
-	self.register_text = tk.Text(self, width = 32)
+	self.register_text = tk.Text(self, width = 32, height = 33)
 	self.register_text["background"] = "grey"
 	self.register_text.grid(column = 25, row = 0)
 	
@@ -61,19 +68,19 @@ def create_control(self):
 	button_panel.grid(column=0,row=2, columnspan=2)
 	
 	self.step_button = tk.Button(button_panel, text="Step",
-		command=self.step_once)
+		command=self.step_once, state = "disabled")
 	self.step_button.grid(column=0, row=0)
 	
 	self.run_button = tk.Button(button_panel, text="Run",
-		command=self.run_prog)
+		command=self.run_prog, state = "disabled")
 	self.run_button.grid(column = 1, row = 0)	
 	
 	self.stop_button = tk.Button(button_panel, text="Stop",
-		command=self.stop_prog)
+		command=self.stop_prog, state = "disabled")
 	self.stop_button.grid(column = 0, row = 1)
 		
 	self.reset_button = tk.Button(button_panel, text="Reset",
-		command=self.reset)
+		command=self.reset, state = "disabled")
 	self.reset_button.grid(column = 1, row = 1)
 	
 def update_bin(self):
@@ -88,8 +95,10 @@ def update_stack(self):
 def update_registers(self):
 	print(">Updating registers")
 	registers = self.program.get_all_registers()
-	print(self.program.get_register(1))
-	self.register_text.insert("end", "boop")
+	self.register_text["state"] = "normal"
+	regnum = 0
 	for register in registers:
-		self.register_text.insert("end", "beep")
+		output = "$" + str(regnum) + ":" + str(register) + "\n"
+		self.register_text.insert("end", output)
+		regnum = regnum + 1
 
