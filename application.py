@@ -3,6 +3,7 @@ import mips_sim as mips
 import tkinter as tk
 import interface as ui
 import load_file as lf
+import instruction as ins
 from tkinter import filedialog
 
 
@@ -23,6 +24,9 @@ class MIPSApplication(tk.Frame):
     def step_once(self):
         print(">Stepping once")
         self.reset_button["state"] = "normal"
+        if(len(self.program.instructions) != 0):
+            inst = self.program.instructions.pop(0)
+            inst.execute()
         ui.unlock_text(self)
         ui.update_stack(self)
         ui.update_registers(self)
@@ -32,10 +36,12 @@ class MIPSApplication(tk.Frame):
         print(">Running program")
         self.stop_button["state"] = "normal"
         self.reset_button["state"] = "normal"
-        ui.unlock_text(self)
-        ui.update_stack(self)
-        ui.update_registers(self)
-        ui.lock_text(self)
+        for inst in self.program.instructions:
+            inst.execute()
+            ui.unlock_text(self)
+            ui.update_stack(self)
+            ui.update_registers(self)
+            ui.lock_text(self)
 		
     def stop_prog(self):
 	    print(">Stopping program")

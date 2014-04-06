@@ -86,19 +86,22 @@ def create_control(self):
 def update_bin(self):
 	print(">Updating binary")
 	for line in self.program.machine_code:
-		self.bin_text.insert("end", line)
-		self.bin_text.insert("end", "\n")
+		self.bin_text.insert("end", str(line) + "\n")
 
 def update_stack(self):
 	print(">Updating stack")
+	stack = self.program.get_stack()
+	#for item in stack:
+		#self.stack_text.insert("end", str(item) + "\n")
 	
 def update_registers(self):
 	print(">Updating registers")
+	self.register_text.delete("1.0", "end")
 	registers = self.program.get_all_registers()
 	self.register_text["state"] = "normal"
 	regnum = 0
 	for register in registers:
 		output = "$" + str(regnum) + ":" + str(register) + "\n"
 		self.register_text.insert("end", output)
-		regnum = regnum + 1
+		regnum += 1
 
