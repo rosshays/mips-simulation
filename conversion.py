@@ -94,7 +94,7 @@ def convert_instruction(inst):
     elif inst == "xor":         return ("000000ssssstttttddddd-----100110", "")
     elif inst == "xori":        return ("001110ssssstttttiiiiiiiiiiiiiiii", "")
 
-    else: raise Exception("invalid instruction: " + inst)
+    else: raise Exception("invalid instruction: " + str(inst))
 
 def convert_register(register):
     if register == "$zero" or register == "$0": return "00000" #return ("00000", 0)
