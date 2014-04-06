@@ -14,7 +14,6 @@ def create_menu(self, root):
 	self.menu = tk.Menu(self)
 	root["menu"] = self.menu
 	
-def create_file(self, root):
 	file_menu = tk.Menu(self.menu)
 	file_menu.add_command(label = "Open",
 		command = self.load_input_file)
@@ -78,6 +77,19 @@ def create_control(self):
 	self.reset_button.grid(column = 1, row = 1)
 	
 def update_bin(self):
+	print(">Updating binary")
 	for line in self.program.machine_code:
 		self.bin_text.insert("end", line)
 		self.bin_text.insert("end", "\n")
+
+def update_stack(self):
+	print(">Updating stack")
+	
+def update_registers(self):
+	print(">Updating registers")
+	registers = self.program.get_all_registers()
+	print(self.program.get_register(1))
+	self.register_text.insert("end", "boop")
+	for register in registers:
+		self.register_text.insert("end", "beep")
+

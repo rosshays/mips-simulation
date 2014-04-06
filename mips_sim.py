@@ -37,6 +37,9 @@ class Program:
             self.machine_code.append(inst)
             self.instructions.append(new_instruction)
             counter += Instruction.SIZE
+            
+    def get_all_registers(self):
+        return self.registers
 
     def get_register(self, reg):
         return self.registers[reg]
