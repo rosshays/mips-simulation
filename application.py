@@ -13,15 +13,13 @@ class MIPSApplication(tk.Frame):
         ui.create_menu(self, root)
         ui.create_file(self, root)
         
-        ui.create_input(self)
-        ui.create_bin(self)
-        ui.create_stack(self)
+        self.grid(column = 0, row = 0)
+        
+        ui.create_text_boxes(self)
+
         ui.lock_text(self)
         
-        button_panel = ui.create_control(self)
-        
-        ui.adjust_layout(self)
-        ui.arrange_control(self, button_panel)
+        ui.create_control(self)
 
     def step_once(self):
         print(">Stepping once")
@@ -31,6 +29,9 @@ class MIPSApplication(tk.Frame):
 		
     def stop_prog(self):
 	    print(">Stopping program")
+	    
+    def reset(self):
+        print(">Resetting simulator")
 
     def load_input_file(self):
         filename = lf.get_file(self)
