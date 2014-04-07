@@ -1,4 +1,5 @@
 import tkinter as tk
+import conversion as conv
 
 def initialize(self, master, root):
 	tk.Frame.__init__(self, master)
@@ -82,10 +83,21 @@ def create_control(self):
 		command=self.reset, state = "disabled")
 	self.reset_button.grid(column = 1, row = 1)
 	
+
+def update_input(self, lines):
+	i = 0
+	for line in lines:
+		content = str(i) + "\t" + str(line)
+		self.input_text.insert("end", content + "\n")
+		i += 1
+
 def update_bin(self):
 	print(">Updating binary")
+	i = 0
 	for line in self.program.machine_code:
-		self.bin_text.insert("end", str(line) + "\n")
+		content = str(hex(i)) + "\t" + str(line)
+		self.bin_text.insert("end", content + "\n")
+		i += 4
 
 def update_stack(self):
 	print(">Updating stack")

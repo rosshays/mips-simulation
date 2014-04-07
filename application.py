@@ -56,6 +56,7 @@ class MIPSApplication(tk.Frame):
 		lines = lf.get_lines(self, filename)
 		self.program = mips.Program(lines)
 		ui.unlock_text(self)
+		ui.update_input(self, lines)
 		ui.update_bin(self)
 		ui.update_stack(self)
 		ui.update_registers(self)

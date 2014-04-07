@@ -19,7 +19,5 @@ def get_lines(self, filename):
 	# iterate through all the lines in filename
 	with open(filename) as f:
 		for line in f:
-			self.input_text.insert("end", line)
 			lines.append(line)
-	
 	return lines
