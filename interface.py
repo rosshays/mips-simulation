@@ -34,19 +34,19 @@ def unlock_text(self):
 	self.register_text["state"] = "normal"
 
 def create_text_boxes(self):
-	self.input_text = tk.Text(self, width = 32, height = 33)
+	self.input_text = tk.Text(self, width = 25, height = 33)
 	self.input_text["background"] = "grey"
 	self.input_text.grid(column = 10, row = 0)
 		
-	self.bin_text = tk.Text(self, width = 32, height = 33)
+	self.bin_text = tk.Text(self, width = 35, height = 33)
 	self.bin_text["background"] = "grey"
 	self.bin_text.grid(column = 15, row = 0)
 	
-	self.stack_text = tk.Text(self, width = 32, height = 33)
+	self.stack_text = tk.Text(self, width = 25, height = 33)
 	self.stack_text["background"] = "grey"
 	self.stack_text.grid(column = 20, row = 0)
 
-	self.register_text = tk.Text(self, width = 32, height = 33)
+	self.register_text = tk.Text(self, width = 25, height = 33)
 	self.register_text["background"] = "grey"
 	self.register_text.grid(column = 25, row = 0)
 	
@@ -90,9 +90,15 @@ def update_bin(self):
 
 def update_stack(self):
 	print(">Updating stack")
+	self.stack_text.delete("1.0", "end")
 	stack = self.program.get_stack()
-	#for item in stack:
-		#self.stack_text.insert("end", str(item) + "\n")
+	contents = stack.get_contents()
+	for item in contents:
+		output = str(hex(item)) + ":\t" + str(contents[item])
+		self.stack_text.insert("end", output)
+		if(self.program.get_register(29) == item):
+			self.stack_text.insert("end", "\t<--pc")
+		self.stack_text.insert("end", "\n")
 	
 def update_registers(self):
 	print(">Updating registers")
@@ -101,7 +107,7 @@ def update_registers(self):
 	self.register_text["state"] = "normal"
 	regnum = 0
 	for register in registers:
-		output = "$" + str(regnum) + ":" + str(register) + "\n"
+		output = "$" + str(regnum) + ":\t" + str(register) + "\n"
 		self.register_text.insert("end", output)
 		regnum += 1
 
