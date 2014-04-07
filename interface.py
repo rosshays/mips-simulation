@@ -7,7 +7,7 @@ def initialize(self, master, root):
 	self.create_widgets()
 	# default configuration of window
 	root.resizable(0,0)
-	root.geometry("1050x500")
+	root.geometry("1100x500")
 	root.wm_title("MIPS Simulation")
 	
 	
@@ -34,11 +34,11 @@ def unlock_text(self):
 	self.register_text["state"] = "normal"
 
 def create_text_boxes(self):
-	self.input_text = tk.Text(self, width = 25, height = 33)
+	self.input_text = tk.Text(self, width = 32, height = 33)
 	self.input_text["background"] = "grey"
 	self.input_text.grid(column = 10, row = 0)
 		
-	self.bin_text = tk.Text(self, width = 35, height = 33)
+	self.bin_text = tk.Text(self, width = 43, height = 33)
 	self.bin_text["background"] = "grey"
 	self.bin_text.grid(column = 15, row = 0)
 	
@@ -89,7 +89,7 @@ def update_input(self, lines):
 	i = 0
 	for line in lines:
 		content = str(i) + "\t" + str(line)
-		self.input_text.insert("end", content + "\n")
+		self.input_text.insert("end", content)
 		i += 1
 
 def update_bin(self):
