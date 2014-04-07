@@ -66,110 +66,109 @@ def convert_instruction(inst):
 	elif inst == "j":           return ("000010iiiiiiiiiiiiiiiiiiiiiiiiii", "J")
 	elif inst == "jal":         return ("000011iiiiiiiiiiiiiiiiiiiiiiiiii", "J")
 	elif inst == "jr":          return ("000000sssss000000000000000001000", "R")
-	elif inst == "lb":          return ("100000ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "lui":         return ("001111-----tttttiiiiiiiiiiiiiiii", "")
-	elif inst == "lw":          return ("100011ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "mfhi":        return ("0000000000000000ddddd00000010000", "")
-	elif inst == "mflo":        return ("0000000000000000ddddd00000010010", "")
-	elif inst == "mult":        return ("000000sssssttttt0000000000011000", "")
-	elif inst == "multu":       return ("000000sssssttttt0000000000011001", "")
+	elif inst == "lb":          return ("100000ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "lui":         return ("001111-----tttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "lw":          return ("100011ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "mfhi":        return ("0000000000000000ddddd00000010000", "R")
+	elif inst == "mflo":        return ("0000000000000000ddddd00000010010", "R")
+	elif inst == "mult":        return ("000000sssssttttt0000000000011000", "R")
+	elif inst == "multu":       return ("000000sssssttttt0000000000011001", "R")
 	elif inst == "noop":        return ("00000000000000000000000000000000", "")
-	elif inst == "or":          return ("000000ssssstttttddddd00000100101", "")
-	elif inst == "ori":         return ("001101ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "sb":          return ("101000ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "sll":         return ("000000ssssstttttdddddhhhhh000000")
-	elif inst == "sllv":        return ("000000ssssstttttddddd-----000100")
-	elif inst == "slt":         return ("000000ssssstttttddddd00000101010", "")
-	elif inst == "slti":        return ("001010ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "sltiu":       return ("001011ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "sltu":        return ("000000ssssstttttddddd00000101011", "")
-	elif inst == "sltu":        return ("000000ssssstttttddddd00000101011", "")
-	elif inst == "sra":         return ("000000-----tttttdddddhhhhh000011")
-	elif inst == "srl":         return ("000000-----tttttdddddhhhhh000010")
-	elif inst == "srlv":        return ("000000ssssstttttddddd00000000110", "")
-	elif inst == "sub":         return ("000000ssssstttttddddd00000100010", "")
-	elif inst == "subu":        return ("000000ssssstttttddddd00000100011", "")
-	elif inst == "sw":          return ("101011ssssstttttiiiiiiiiiiiiiiii", "")
-	elif inst == "syscall":     return ("000000--------------------001100", "")
-	elif inst == "xor":         return ("000000ssssstttttddddd-----100110", "")
-	elif inst == "xori":        return ("001110ssssstttttiiiiiiiiiiiiiiii", "")
+	elif inst == "or":          return ("000000ssssstttttddddd00000100101", "R")
+	elif inst == "ori":         return ("001101ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "sb":          return ("101000ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "sll":         return ("000000ssssstttttdddddhhhhh000000", "R")
+	elif inst == "sllv":        return ("000000ssssstttttddddd-----000100", "R")
+	elif inst == "slt":         return ("000000ssssstttttddddd00000101010", "R")
+	elif inst == "slti":        return ("001010ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "sltiu":       return ("001011ssssstttttiiiiiiiiiiiiiiii", "I")
+	elif inst == "sltu":        return ("000000ssssstttttddddd00000101011", "R")
+	elif inst == "sltu":        return ("000000ssssstttttddddd00000101011", "R")
+	elif inst == "sra":         return ("000000-----tttttdddddhhhhh000011", "R")
+	elif inst == "srl":         return ("000000-----tttttdddddhhhhh000010", "R")
+	elif inst == "srlv":        return ("000000ssssstttttddddd00000000110", "R")
+	elif inst == "sub":         return ("000000ssssstttttddddd00000100010", "R")
+	elif inst == "subu":        return ("000000ssssstttttddddd00000100011", "R")
+	elif inst == "sw":          return ("101011ssssstttttiiiiiiiiiiiiiiii", "I")
+	# elif inst == "syscall":     return ("000000--------------------001100", "")
+	elif inst == "xor":         return ("000000ssssstttttddddd-----100110", "R")
+	elif inst == "xori":        return ("001110ssssstttttiiiiiiiiiiiiiiii", "I")
 	else: raise Exception("invalid instruction: " + str(inst))
 
 def convert_register(register):
-	if register == "$zero" or register == "$0": return "00000" #return ("00000", 0)
-	elif register == "$at" or register == "$1": return "00001" #return ("00001", 1)
-	elif register == "$v0" or register == "$2": return "00010" #return ("00010", 2)
-	elif register == "$v1" or register == "$3": return "00011" #return ("00011", 3)
-	elif register == "$a0" or register == "$4": return "00100" #return ("00100", 4)
-	elif register == "$a1" or register == "$5": return "00101" #return ("00101", 5)
-	elif register == "$a2" or register == "$6": return "00110" #return ("00110", 6)
-	elif register == "$a3" or register == "$7": return "00111" #return ("00111", 7)
-	elif register == "$t0" or register == "$8": return "01000" #return ("01000", 8)
-	elif register == "$t1" or register == "$9": return "01001" #return ("01001", 9)
-	elif register == "$t2" or register == "$10": return "01010"  #return ("01010", 10)
-	elif register == "$t3" or register == "$11": return "01011"  #return ("01011", 11)
-	elif register == "$t4" or register == "$12": return "01100"  #return ("01100", 12)
-	elif register == "$t5" or register == "$13": return "01101"  #return ("01101", 13)
-	elif register == "$t6" or register == "$14": return "01110"  #return ("01110", 14)
-	elif register == "$t7" or register == "$15": return "01111"  #return ("01111", 15)
-	elif register == "$s0" or register == "$16": return "10000"  #return ("10000", 16)
-	elif register == "$s1" or register == "$17": return "10001"  #return ("10001", 17)
-	elif register == "$s2" or register == "$18": return "10010"  #return ("10010", 18)
-	elif register == "$s3" or register == "$19": return "10011"  #return ("10011", 19)
-	elif register == "$s4" or register == "$20": return "10100"  #return ("10100", 20)
-	elif register == "$s5" or register == "$21": return "10101"  #return ("10101", 21)
-	elif register == "$s6" or register == "$22": return "10110"  #return ("10110", 22)
-	elif register == "$s7" or register == "$23": return "10111"  #return ("10111", 23)
-	elif register == "$t8" or register == "$24": return "11000"  #return ("11000", 24)
-	elif register == "$t8" or register == "$25": return "11001"  #return ("11001", 25)
-	elif register == "$k0" or register == "$26": return "11010"  #return ("11010", 26)
-	elif register == "$k1" or register == "$27": return "11011"  #return ("11011", 27)
-	elif register == "$gp" or register == "$28": return "11100"  #return ("11100", 28)
-	elif register == "$sp" or register == "$29": return "11101"  #return ("11101", 29)
-	elif register == "$fp" or register == "$30": return "11110"  #return ("11110", 30)
-	elif register == "$ra" or register == "$31": return "11111"  #return ("11111", 31)
+	if register == "$zero" or register == "$0": return "00000" 
+	elif register == "$at" or register == "$1": return "00001"
+	elif register == "$v0" or register == "$2": return "00010" 
+	elif register == "$v1" or register == "$3": return "00011" 
+	elif register == "$a0" or register == "$4": return "00100" 
+	elif register == "$a1" or register == "$5": return "00101" 
+	elif register == "$a2" or register == "$6": return "00110" 
+	elif register == "$a3" or register == "$7": return "00111" 
+	elif register == "$t0" or register == "$8": return "01000" 
+	elif register == "$t1" or register == "$9": return "01001" 
+	elif register == "$t2" or register == "$10": return "01010"  
+	elif register == "$t3" or register == "$11": return "01011"  
+	elif register == "$t4" or register == "$12": return "01100"  
+	elif register == "$t5" or register == "$13": return "01101"  
+	elif register == "$t6" or register == "$14": return "01110"  
+	elif register == "$t7" or register == "$15": return "01111"  
+	elif register == "$s0" or register == "$16": return "10000"  
+	elif register == "$s1" or register == "$17": return "10001"  
+	elif register == "$s2" or register == "$18": return "10010"  
+	elif register == "$s3" or register == "$19": return "10011"  
+	elif register == "$s4" or register == "$20": return "10100"  
+	elif register == "$s5" or register == "$21": return "10101"  
+	elif register == "$s6" or register == "$22": return "10110"  
+	elif register == "$s7" or register == "$23": return "10111"  
+	elif register == "$t8" or register == "$24": return "11000"  
+	elif register == "$t8" or register == "$25": return "11001"  
+	elif register == "$k0" or register == "$26": return "11010"  
+	elif register == "$k1" or register == "$27": return "11011"  
+	elif register == "$gp" or register == "$28": return "11100"  
+	elif register == "$sp" or register == "$29": return "11101"  
+	elif register == "$fp" or register == "$30": return "11110"  
+	elif register == "$ra" or register == "$31": return "11111"  
 	else: raise Exception("invalid register: " + register)
 
 def convert_register_number(register):
-	if register == "$zero" or register == "$0": return 0 #return ("00000", 0)
-	elif register == "$at" or register == "$1": return 1 #return ("00001", 1)
-	elif register == "$v0" or register == "$2": return 2 #return ("00010", 2)
-	elif register == "$v1" or register == "$3": return 3 #return ("00011", 3)
-	elif register == "$a0" or register == "$4": return 4 #return ("00100", 4)
-	elif register == "$a1" or register == "$5": return 5 #return ("00101", 5)
-	elif register == "$a2" or register == "$6": return 6 #return ("00110", 6)
-	elif register == "$a3" or register == "$7": return 7 #return ("00111", 7)
-	elif register == "$t0" or register == "$8": return 8 #return ("01000", 8)
-	elif register == "$t1" or register == "$9": return 9 #return ("01001", 9)
-	elif register == "$t2" or register == "$10": return 10  #return ("01010", 10)
-	elif register == "$t3" or register == "$11": return 11  #return ("01011", 11)
-	elif register == "$t4" or register == "$12": return 12  #return ("01100", 12)
-	elif register == "$t5" or register == "$13": return 13  #return ("01101", 13)
-	elif register == "$t6" or register == "$14": return 14  #return ("01110", 14)
-	elif register == "$t7" or register == "$15": return 15  #return ("01111", 15)
-	elif register == "$s0" or register == "$16": return 16  #return ("10000", 16)
-	elif register == "$s1" or register == "$17": return 17  #return ("10001", 17)
-	elif register == "$s2" or register == "$18": return 18  #return ("10010", 18)
-	elif register == "$s3" or register == "$19": return 19  #return ("10011", 19)
-	elif register == "$s4" or register == "$20": return 20  #return ("10100", 20)
-	elif register == "$s5" or register == "$21": return 21  #return ("10101", 21)
-	elif register == "$s6" or register == "$22": return 22  #return ("10110", 22)
-	elif register == "$s7" or register == "$23": return 23  #return ("10111", 23)
-	elif register == "$t8" or register == "$24": return 24  #return ("11000", 24)
-	elif register == "$t8" or register == "$25": return 25  #return ("11001", 25)
-	elif register == "$k0" or register == "$26": return 26  #return ("11010", 26)
-	elif register == "$k1" or register == "$27": return 27  #return ("11011", 27)
-	elif register == "$gp" or register == "$28": return 28  #return ("11100", 28)
-	elif register == "$sp" or register == "$29": return 29  #return ("11101", 29)
-	elif register == "$fp" or register == "$30": return 30  #return ("11110", 30)
-	elif register == "$ra" or register == "$31": return 31  #return ("11111", 31)
+	if register == "$zero" or register == "$0": return 0 
+	elif register == "$at" or register == "$1": return 1 
+	elif register == "$v0" or register == "$2": return 2 
+	elif register == "$v1" or register == "$3": return 3 
+	elif register == "$a0" or register == "$4": return 4 
+	elif register == "$a1" or register == "$5": return 5 
+	elif register == "$a2" or register == "$6": return 6 
+	elif register == "$a3" or register == "$7": return 7 
+	elif register == "$t0" or register == "$8": return 8 
+	elif register == "$t1" or register == "$9": return 9 
+	elif register == "$t2" or register == "$10": return 10  
+	elif register == "$t3" or register == "$11": return 11  
+	elif register == "$t4" or register == "$12": return 12  
+	elif register == "$t5" or register == "$13": return 13  
+	elif register == "$t6" or register == "$14": return 14  
+	elif register == "$t7" or register == "$15": return 15  
+	elif register == "$s0" or register == "$16": return 16  
+	elif register == "$s1" or register == "$17": return 17  
+	elif register == "$s2" or register == "$18": return 18  
+	elif register == "$s3" or register == "$19": return 19  
+	elif register == "$s4" or register == "$20": return 20  
+	elif register == "$s5" or register == "$21": return 21  
+	elif register == "$s6" or register == "$22": return 22  
+	elif register == "$s7" or register == "$23": return 23  
+	elif register == "$t8" or register == "$24": return 24  
+	elif register == "$t8" or register == "$25": return 25  
+	elif register == "$k0" or register == "$26": return 26  
+	elif register == "$k1" or register == "$27": return 27  
+	elif register == "$gp" or register == "$28": return 28  
+	elif register == "$sp" or register == "$29": return 29  
+	elif register == "$fp" or register == "$30": return 30  
+	elif register == "$ra" or register == "$31": return 31  
 	else: raise Exception("invalid register: " + register)
 
 def convert_regmem(regmem):
 	offset = regmem[:regmem.find("(")]
 	reg = regmem[regmem.find("(") + 1 : regmem.find(")")]
 	return reg, offset
-
 
 def convert_immediate(imm):
 	is_neg = bin(imm)[0] == '-'
@@ -201,22 +200,21 @@ def convert_immediate(imm):
 				bin_str = bin_str[:i] + "0" + bin_str[i + 1:]           
 	return bin_str
 
+def pad_immediate(imm_str, desired_length):
+	char = imm_str[0]
+	imm_str = char * (desired_length - len(imm_str)) + imm_str
+	return imm_str
+
 def convert_line(input_line, line_number, label_dict = None):
 	# get the tokens of our input line
 	tokens = input_line.split("#")[0].split()
 	tokens = [i.split(",")[0] for i in tokens]
-	print(tokens)
 
 	# get rid of all the labels in the input line
 	i = 0
 	while i < len(tokens):
 		if tokens[i].find(":") != -1:
-			new_label = tokens[i]
-			if new_label in label_dict:
-				raise Exception("label (" + new_label + ") declared twice")
-			else:
-				label_dict[new_label[:-1]] = line_number
-				tokens.pop(i)
+			tokens.pop(i)
 		else:
 			i += 1
 	if len(tokens) == 0:
@@ -231,11 +229,16 @@ def convert_line(input_line, line_number, label_dict = None):
 
 	elif format == "I":
 		# special logic for branch instructions
-		if tokens[0][0] == 'b':
+		if tokens[0] == "beq" or tokens[0] == "bne":
 			# figure out the offset (label_value - line_number)
 			offset = label_dict[tokens[3]] - line_number
 			instruction = instruction.replace("sssss", convert_register(tokens[1]))
 			instruction = instruction.replace("ttttt", convert_register(tokens[2]))
+			instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(offset))
+		elif tokens[0][0] == 'b':
+			# figure out the offset (label_value - line_number)
+			offset = label_dict[tokens[2]] - line_number
+			instruction = instruction.replace("sssss", convert_register(tokens[1]))
 			instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(offset))
 
 		# non branch instructions
@@ -246,6 +249,8 @@ def convert_line(input_line, line_number, label_dict = None):
 
 	elif format == "J":
 		label_address = label_dict[tokens[1]]
+		label_address = convert_immediate(label_address)
+		label_address = pad_immediate(label_address, 26)
 		instruction = instruction.replace("iiiiiiiiiiiiiiiiiiiiiiiiii", str(label_address))
 
 	else:

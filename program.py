@@ -33,6 +33,24 @@ class Program:
 		self.lo = 0
 
 		counter = 0
+
+		# build the label dictionary ahead of time
+		addr_counter = 0
+		for line in source:
+			# remove comments and whitespace
+			tokens = line.split("#")[0].split()
+			tokens = [i.split(",")[0].lstrip().rstrip() for i in tokens]
+			i = 0
+			while i < len(tokens):
+				if tokens[i].find(":") != -1:
+					self.labels[tokens[i][:-1]] = addr_counter
+					tokens.pop(i)
+				else:
+					i += 1
+			if len(tokens) > 0:
+				addr_counter += ins.Instruction.SIZE
+
+		# now create instructions
 		for line in source:
 			inst = conv.convert_line(line, counter, self.labels)
 			if inst != None:
