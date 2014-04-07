@@ -34,11 +34,21 @@ class Program:
 		for line in source:
 			inst = conv.convert_line(line, counter, self.labels)
 			if inst != None:
-				new_instruction = ins.Instruction(self, line)
+				new_instruction = ins.Instruction(self, inst)
 				self.machine_code.append(inst)
 				self.instructions.append(new_instruction)
 				counter += ins.Instruction.SIZE
 			
+	def step_once(self):
+		inst = self.instructions[self.pc / 4]
+		self.pc = inst.execute(self.pc, self.labels)
+
+	def reset(self):
+		self.registers = [0] * 32
+		self.pc = 0
+		self.memory = stack.Stack()
+
+
 	def get_all_registers(self):
 		return self.registers
 
@@ -53,6 +63,8 @@ class Program:
 		regi = int(reg)
 		if(regi < 32 and regi > 0):
 			self.registers[regi] = value
+		elif regi == 0:
+			pass
 		else:
 			print("Error: invalid register")
 			
