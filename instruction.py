@@ -121,7 +121,18 @@ class Instruction:
             return ("000000-----tttttdddddhhhhh000010")
         elif self.instruction == "srlv":      
             return ("000000ssssstttttddddd00000000110", "")
-        elif self.instruction == "sub":       
+        elif self.instruction == "sub":
+            p0 = conv.convert_register_number(self.params[0])
+            p1 = conv.convert_register_number(self.params[1])
+            p2 = conv.convert_register_number(self.params[2])
+            s = self.program.get_register(p1)
+            t = self.program.get_register(p2)
+            d = s - t
+            self.program.set_register(p0, d)
+
+
+
+            
             return ("000000ssssstttttddddd00000100010", "")
         elif self.instruction == "subu":      
             return ("000000ssssstttttddddd00000100011", "")
