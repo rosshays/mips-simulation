@@ -21,47 +21,47 @@ import stack
 
 class Program:
 
-    # create a new MIPS program to simulate
-    # source should contain a list of mips source code, line by line
-    def __init__(self, source):
-        self.instructions = []
-        self.machine_code = []
-        self.registers = [0] * 32
-        self.labels = {}
-        self.pc = 0
-        self.memory = stack.Stack()
+	# create a new MIPS program to simulate
+	# source should contain a list of mips source code, line by line
+	def __init__(self, source):
+		self.instructions = []
+		self.machine_code = []
+		self.registers = [0] * 32
+		self.labels = {}
+		self.pc = 0
+		self.memory = stack.Stack()
 
-        counter = 0
-        for line in source:
-            inst = conv.convert_line(line, counter, self.labels)
-            if inst != None:
-                new_instruction = ins.Instruction(self, line)
-                self.machine_code.append(inst)
-                self.instructions.append(new_instruction)
-                counter += ins.Instruction.SIZE
-            
-    def get_all_registers(self):
-        return self.registers
+		counter = 0
+		for line in source:
+			inst = conv.convert_line(line, counter, self.labels)
+			if inst != None:
+				new_instruction = ins.Instruction(self, line)
+				self.machine_code.append(inst)
+				self.instructions.append(new_instruction)
+				counter += ins.Instruction.SIZE
+			
+	def get_all_registers(self):
+		return self.registers
 
-    def get_register(self, reg):
-        regi = int(reg)
-        if(regi < 32 and regi >= 0):
-            return self.registers[regi]
-        else:
-            print("Error: invalid register")
+	def get_register(self, reg):
+		regi = int(reg)
+		if(regi < 32 and regi >= 0):
+			return self.registers[regi]
+		else:
+			print("Error: invalid register")
 
-    def set_register(self, reg, value):
-        regi = int(reg)
-        if(regi < 32 and regi > 0):
-            self.registers[regi] = value
-        else:
-            print("Error: invalid register")
-            
-    def get_stack(self):
-        return self.memory
+	def set_register(self, reg, value):
+		regi = int(reg)
+		if(regi < 32 and regi > 0):
+			self.registers[regi] = value
+		else:
+			print("Error: invalid register")
+			
+	def get_stack(self):
+		return self.memory
 
-    def get_memory(self, reg, offset):
-        pass
+	def get_memory(self, reg, offset):
+		pass
 
-    def set_memory(self, reg, offset, value):
-        pass
+	def set_memory(self, reg, offset, value):
+		pass
