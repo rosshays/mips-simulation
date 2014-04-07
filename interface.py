@@ -1,4 +1,3 @@
-# USES TABS FOR INDENTATION
 import tkinter as tk
 
 def initialize(self, master, root):

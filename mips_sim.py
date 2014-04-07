@@ -1,4 +1,3 @@
-# USES 4 SPACES FOR INDENTATION
 import conversion as conv
 import instruction as ins
 import stack

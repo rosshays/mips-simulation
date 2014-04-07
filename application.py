@@ -1,4 +1,3 @@
-# USES 4 SPACES FOR INDENTATION
 import mips_sim as mips
 import tkinter as tk
 import interface as ui
