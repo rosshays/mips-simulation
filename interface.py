@@ -85,6 +85,7 @@ def create_control(self):
 	
 
 def update_input(self, lines):
+	print(">Updating input")
 	i = 0
 	for line in lines:
 		content = str(i) + "\t" + str(line)
