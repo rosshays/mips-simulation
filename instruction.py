@@ -155,10 +155,10 @@ class Instruction:
 		elif self.instruction == "jr":        
 			return self.get_register(conv.convert_register_number(self.params[0]))
 
-		elif self.instruction == "lb":        
-			return ("100000ssssstttttiiiiiiiiiiiiiiii", "")
-		elif self.instruction == "lui":       
-			return ("001111-----tttttiiiiiiiiiiiiiiii", "")
+		# elif self.instruction == "lb":        
+		# 	return ("100000ssssstttttiiiiiiiiiiiiiiii", "")
+		# elif self.instruction == "lui":       
+		# 	return ("001111-----tttttiiiiiiiiiiiiiiii", "")
 
 		elif self.instruction == "lw":        
 			p0 = conv.convert_register_number(self.params[0])
@@ -178,15 +178,20 @@ class Instruction:
 			self.program.set_register(p0, self.program.get_lo())
 			return pc + Instruction.SIZE
 
-		# elif self.instruction == "mult":      
-		# 	p0 = conv.convert_register_number(self.params[0])
-		# 	p1 = conv.convert_register_number(self.params[1])
-		# 	s = self.program.get_register(p1)
-		# 	t = self.program.get_register(p2)
-		# 	d = s * t
-		# 	self.program.set_hi(val)
-		# 	self.program.set_lo(val)
-		# 	return pc + Instruction.SIZE
+		elif self.instruction == "mult":      
+			p0 = conv.convert_register_number(self.params[0])
+			p1 = conv.convert_register_number(self.params[1])
+			s = self.program.get_register(p1)
+			t = self.program.get_register(p2)
+			d = s * t
+
+			bin_d = pad_immediate(str(bin(d)), 64)
+			bin_hi = bin_d[:32]
+			bin_lo = bin_d[32:]
+
+			self.program.set_hi(int(bin_hi,2))
+			self.program.set_lo(int(bin_lo,2))
+			return pc + Instruction.SIZE
 
 		# elif self.instruction == "multu":     
 		# 	return ("000000sssssttttt0000000000011001", "")
@@ -215,28 +220,28 @@ class Instruction:
 			self.program.set_register(p0, d)
 			return pc + Instruction.SIZE
 
-		elif self.instruction == "sb":        
-			return ("101000ssssstttttiiiiiiiiiiiiiiii", "")
-		elif self.instruction == "sll":       
-			return ("000000ssssstttttdddddhhhhh000000")
-		elif self.instruction == "sllv":      
-			return ("000000ssssstttttddddd-----000100")
-		elif self.instruction == "slt":       
-			return ("000000ssssstttttddddd00000101010", "")
-		elif self.instruction == "slti":      
-			return ("001010ssssstttttiiiiiiiiiiiiiiii", "")
-		elif self.instruction == "sltiu":     
-			return ("001011ssssstttttiiiiiiiiiiiiiiii", "")
-		elif self.instruction == "sltu":      
-			return ("000000ssssstttttddddd00000101011", "")
-		elif self.instruction == "sltu":      
-			return ("000000ssssstttttddddd00000101011", "")
-		elif self.instruction == "sra":       
-			return ("000000-----tttttdddddhhhhh000011")
-		elif self.instruction == "srl":       
-			return ("000000-----tttttdddddhhhhh000010")
-		elif self.instruction == "srlv":      
-			return ("000000ssssstttttddddd00000000110", "")
+		# elif self.instruction == "sb":        
+		# 	return ("101000ssssstttttiiiiiiiiiiiiiiii", "")
+		# elif self.instruction == "sll":       
+		# 	return ("000000ssssstttttdddddhhhhh000000")
+		# elif self.instruction == "sllv":      
+		# 	return ("000000ssssstttttddddd-----000100")
+		# elif self.instruction == "slt":       
+		# 	return ("000000ssssstttttddddd00000101010", "")
+		# elif self.instruction == "slti":      
+		# 	return ("001010ssssstttttiiiiiiiiiiiiiiii", "")
+		# elif self.instruction == "sltiu":     
+		# 	return ("001011ssssstttttiiiiiiiiiiiiiiii", "")
+		# elif self.instruction == "sltu":      
+		# 	return ("000000ssssstttttddddd00000101011", "")
+		# elif self.instruction == "sltu":      
+		# 	return ("000000ssssstttttddddd00000101011", "")
+		# elif self.instruction == "sra":       
+		# 	return ("000000-----tttttdddddhhhhh000011")
+		# elif self.instruction == "srl":       
+		# 	return ("000000-----tttttdddddhhhhh000010")
+		# elif self.instruction == "srlv":      
+		# 	return ("000000ssssstttttddddd00000000110", "")
 
 		elif self.instruction == "sub":
 			p0 = conv.convert_register_number(self.params[0])
