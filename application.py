@@ -14,7 +14,7 @@ class MIPSApplication(tk.Frame):
 		self.create_widgets()
 		# default configuration of window
 		root.resizable(0,0)
-		root.geometry("1100x500")
+		root.geometry("1050x550")
 		root.wm_title("MIPS Simulator")
 		self.job = None
 
@@ -32,16 +32,16 @@ class MIPSApplication(tk.Frame):
 		self.grid(column = 0, row = 0)
 		
 		# create text areas
-		self.input_text = tk.Text(self, width = 32, height = 33)
+		self.input_text = tk.Text(self, width = 40, height = 35)
 		self.input_text["background"] = "grey"
 		self.input_text.grid(column = 10, row = 0)
-		self.bin_text = tk.Text(self, width = 43, height = 33)
+		self.bin_text = tk.Text(self, width = 43, height = 35)
 		self.bin_text["background"] = "grey"
 		self.bin_text.grid(column = 15, row = 0)
-		self.stack_text = tk.Text(self, width = 25, height = 33)
+		self.stack_text = tk.Text(self, width = 25, height = 35)
 		self.stack_text["background"] = "grey"
 		self.stack_text.grid(column = 20, row = 0)
-		self.register_text = tk.Text(self, width = 25, height = 33)
+		self.register_text = tk.Text(self, width = 20, height = 35)
 		self.register_text["background"] = "grey"
 		self.register_text.grid(column = 25, row = 0)
 
@@ -128,7 +128,7 @@ class MIPSApplication(tk.Frame):
 			output = str(hex(item)) + ":\t" + str(contents[item])
 			self.stack_text.insert("end", output)
 			if(self.program.get_register(29) == item):
-				self.stack_text.insert("end", "\t<--pc")
+				self.stack_text.insert("end", "\t<--$sp")
 			self.stack_text.insert("end", "\n")
 		
 	def update_registers(self):
@@ -146,6 +146,7 @@ class MIPSApplication(tk.Frame):
 
 	def step_once(self):
 		print(">Stepping once")
+		self.reset_button["state"] = "normal"
 		self.program.step_once()
 		self.unlock_text()
 		self.update_stack()

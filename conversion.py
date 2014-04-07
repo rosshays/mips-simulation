@@ -221,11 +221,21 @@ def convert_line(input_line, line_number, label_dict = None):
 		return None
 
 	instruction, format = convert_instruction(tokens[0])
+	
+	RTypeOneArg = ["mfhi", "mflo"]
+	RTypeTwoArg = ["mult", "multu"]
+
 
 	if format == "R":
-		instruction = instruction.replace("ttttt", convert_register(tokens[3]))
-		instruction = instruction.replace("sssss", convert_register(tokens[2]))
-		instruction = instruction.replace("ddddd", convert_register(tokens[1]))
+		if(tokens[0] in RTypeTwoArg):
+			instruction = instruction.replace("ttttt", convert_register(tokens[2]))
+			instruction = instruction.replace("sssss", convert_register(tokens[1]))
+		elif(tokens[0] in RTypeOneArg):
+			instruction = instruction.replace("ddddd", convert_register(tokens[1]))
+		else:
+			instruction = instruction.replace("ttttt", convert_register(tokens[3]))
+			instruction = instruction.replace("sssss", convert_register(tokens[2]))
+			instruction = instruction.replace("ddddd", convert_register(tokens[1]))
 
 	elif format == "I":
 		# special logic for branch instructions

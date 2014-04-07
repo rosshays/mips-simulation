@@ -75,7 +75,7 @@ class Instruction:
 		elif self.instruction == "beq":       
 			reg1 = conv.convert_register_number(self.params[0])
 			reg2 = conv.convert_register_number(self.params[1])
-			if self.program.get_register(reg1) == self.program.get_register(reg1):
+			if self.program.get_register(reg1) == self.program.get_register(reg2):
 				return label_dict[self.params[2]]
 			else:
 				return pc + Instruction.SIZE
@@ -127,7 +127,7 @@ class Instruction:
 		elif self.instruction == "bne":       
 			reg1 = conv.convert_register_number(self.params[0])
 			reg2 = conv.convert_register_number(self.params[1])
-			if self.program.get_register(reg1) != self.program.get_register(reg1):
+			if self.program.get_register(reg1) != self.program.get_register(reg2):
 				return label_dict[self.params[2]]
 			else:
 				return pc + Instruction.SIZE
@@ -181,11 +181,11 @@ class Instruction:
 		elif self.instruction == "mult":      
 			p0 = conv.convert_register_number(self.params[0])
 			p1 = conv.convert_register_number(self.params[1])
-			s = self.program.get_register(p1)
-			t = self.program.get_register(p2)
+			s = self.program.get_register(p0)
+			t = self.program.get_register(p1)
 			d = s * t
 
-			bin_d = pad_immediate(str(bin(d)), 64)
+			bin_d = format(d, '#066b')
 			bin_hi = bin_d[:32]
 			bin_lo = bin_d[32:]
 

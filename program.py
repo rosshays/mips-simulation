@@ -72,6 +72,8 @@ class Program:
 		self.registers = [0] * 32
 		self.pc = 0
 		self.memory = stack.Stack()
+		self.hi = 0
+		self.lo = 0
 
 
 	def get_all_registers(self):
