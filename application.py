@@ -145,10 +145,10 @@ class MIPSApplication(tk.Frame):
 		print(">Stepping once")
 		self.reset_button["state"] = "normal"
 		self.program.step_once()
-		ui.unlock_text(self)
-		ui.update_stack(self)
-		ui.update_registers(self)
-		ui.lock_text(self)
+		self.unlock_text()
+		self.update_stack()
+		self.update_registers()
+		self.lock_text()
 	
 	def run_prog(self):
 		print(">Running program")
@@ -156,10 +156,10 @@ class MIPSApplication(tk.Frame):
 		self.reset_button["state"] = "normal"
 		while not self.program.is_finished():
 			self.program.step_once()
-			ui.unlock_text(self)
-			ui.update_stack(self)
-			ui.update_registers(self)
-			ui.lock_text(self)
+			self.unlock_text()
+			self.update_stack()
+			self.update_registers()
+			self.lock_text()
 			time.sleep(1 / self.speed_slider.get()) # sleep so the rate is right
 		
 	def stop_prog(self):
@@ -171,21 +171,21 @@ class MIPSApplication(tk.Frame):
 		self.reset_button["state"] = "disabled"
 		self.stop_button["state"] = "disabled"
 		self.program.reset()
-		ui.unlock_text(self)
-		ui.update_stack(self)
-		ui.update_registers(self)
-		ui.lock_text(self)
+		self.unlock_text()
+		self.update_stack()
+		self.update_registers()
+		self.lock_text()
 
 	def load_input_file(self):
 		filename = self.get_file()
 		lines = self.get_lines(filename)
 		self.program = mips.Program(lines)
-		ui.unlock_text(self)
-		ui.update_input(self, lines)
-		ui.update_bin(self)
-		ui.update_stack(self)
-		ui.update_registers(self)
-		ui.lock_text(self)
+		self.unlock_text()
+		self.update_input(lines)
+		self.update_bin()
+		self.update_stack()
+		self.update_registers()
+		self.lock_text()
 		self.step_button["state"] = "normal"
 		self.run_button["state"] = "normal"
 

@@ -29,18 +29,20 @@ class Program:
 		self.labels = {}
 		self.pc = 0
 		self.memory = stack.Stack()
+		self.hi = 0
+		self.lo = 0
 
 		counter = 0
 		for line in source:
 			inst = conv.convert_line(line, counter, self.labels)
 			if inst != None:
-				new_instruction = ins.Instruction(self, inst)
+				new_instruction = ins.Instruction(self, line)
 				self.machine_code.append(inst)
 				self.instructions.append(new_instruction)
 				counter += ins.Instruction.SIZE
 			
 	def step_once(self):
-		inst = self.instructions[self.pc / 4]
+		inst = self.instructions[self.pc // 4]
 		self.pc = inst.execute(self.pc, self.labels)
 
 	def reset(self):
@@ -58,6 +60,18 @@ class Program:
 			return self.registers[regi]
 		else:
 			print("Error: invalid register")
+
+	def set_hi(self, value):
+		self.hi = value
+
+	def get_hi(self):
+		return self.hi
+
+	def set_lo(self, value):
+		self.lo = value
+
+	def get_lo(self):
+		return self.lo
 
 	def set_register(self, reg, value):
 		regi = int(reg)

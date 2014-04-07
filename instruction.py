@@ -36,7 +36,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s + t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "addi":
 			p0 = conv.convert_register_number(self.params[0])
@@ -46,7 +46,7 @@ class Instruction:
 			t = p2
 			d = s + t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		# elif self.instruction == "addiu":     
 		#     return ("0010 01ssssstttttiiiiiiiiiiiiiiii", "I")
@@ -61,7 +61,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s & t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "andi":      
 			p0 = conv.convert_register_number(self.params[0])
@@ -71,7 +71,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s & t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "beq":       
 			reg1 = conv.convert_register_number(self.params[0])
@@ -79,51 +79,51 @@ class Instruction:
 			if self.program.get_register(reg1) == self.program.get_register(reg1):
 				return label_dict[self.params[2]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bgez":      
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) >= 0:
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bgezal":    
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) >= 0:
-				self.program.set_register(31, pc + SIZE)
+				self.program.set_register(31, pc + Instruction.SIZE)
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bgtz":      
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) > 0:
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "blez":      
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) <= 0:
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bltz":      
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) < 0:
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bltzal":    
 			reg1 = conv.convert_register_number(self.params[0])
 			if self.program.get_register(reg1) < 0:
-				self.program.set_register(31, pc + SIZE)
+				self.program.set_register(31, pc + Instruction.SIZE)
 				return label_dict[self.params[1]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "bne":       
 			reg1 = conv.convert_register_number(self.params[0])
@@ -131,19 +131,25 @@ class Instruction:
 			if self.program.get_register(reg1) != self.program.get_register(reg1):
 				return label_dict[self.params[2]]
 			else:
-				return pc + SIZE
+				return pc + Instruction.SIZE
 
 		elif self.instruction == "div":       
-			return ("000000sssssttttt0000000000011010", "R")
+			p0 = conv.convert_register_number(self.params[0])
+			p1 = conv.convert_register_number(self.params[1])
+			s = self.program.get_register(p1)
+			t = self.program.get_register(p2)
+			self.program.set_hi(s % t)
+			self.program.set_lo(s // t)
+			return pc + Instruction.SIZE
 
-		elif self.instruction == "divu":      
-			return ("000000sssssttttt0000000000011011", "R")
+		# elif self.instruction == "divu":      
+		# 	return ("000000sssssttttt0000000000011011", "R")
 
 		elif self.instruction == "j":         
 			return int(self.params[0])
 
 		elif self.instruction == "jal":       
-			return_addr = pc + SIZE
+			return_addr = pc + Instruction.SIZE
 			self.program.set_register(31, return_addr)
 			return label_dict[self.params[0]]
 
@@ -156,16 +162,33 @@ class Instruction:
 			return ("001111-----tttttiiiiiiiiiiiiiiii", "")
 		elif self.instruction == "lw":        
 			return ("100011ssssstttttiiiiiiiiiiiiiiii", "")
+
 		elif self.instruction == "mfhi":      
-			return ("0000000000000000ddddd00000010000", "")
+			p0 = conv.convert_register_number(self.params[0])
+			self.program.set_register(p0, self.program.get_hi())
+			return pc + Instruction.SIZE
+
 		elif self.instruction == "mflo":      
-			return ("0000000000000000ddddd00000010010", "")
-		elif self.instruction == "mult":      
-			return ("000000sssssttttt0000000000011000", "")
-		elif self.instruction == "multu":     
-			return ("000000sssssttttt0000000000011001", "")
+			p0 = conv.convert_register_number(self.params[0])
+			self.program.set_register(p0, self.program.get_lo())
+			return pc + Instruction.SIZE
+
+		# elif self.instruction == "mult":      
+		# 	p0 = conv.convert_register_number(self.params[0])
+		# 	p1 = conv.convert_register_number(self.params[1])
+		# 	s = self.program.get_register(p1)
+		# 	t = self.program.get_register(p2)
+		# 	d = s * t
+		# 	self.program.set_hi(val)
+		# 	self.program.set_lo(val)
+		# 	return pc + Instruction.SIZE
+
+		# elif self.instruction == "multu":     
+		# 	return ("000000sssssttttt0000000000011001", "")
+
+
 		elif self.instruction == "noop":      
-			return ("00000000000000000000000000000000", "")
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "or":        
 			p0 = conv.convert_register_number(self.params[0])
@@ -175,7 +198,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s | t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "ori":          
 			p0 = conv.convert_register_number(self.params[0])
@@ -185,7 +208,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s | t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "sb":        
 			return ("101000ssssstttttiiiiiiiiiiiiiiii", "")
@@ -218,7 +241,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s - t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		# elif self.instruction == "subu":      
 		# 	return ("000000ssssstttttddddd00000100011", "")
@@ -236,7 +259,7 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s ^ t
 			self.program.set_register(p0, d)
-			return pc + SIZE
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "xori":      
 			p0 = conv.convert_register_number(self.params[0])
@@ -246,5 +269,4 @@ class Instruction:
 			t = self.program.get_register(p2)
 			d = s ^ t
 			self.program.set_register(p0, d)
-			return pc + SIZE
-
+			return pc + Instruction.SIZE
