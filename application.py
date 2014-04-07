@@ -155,7 +155,10 @@ class MIPSApplication(tk.Frame):
 		self.reset_button["state"] = "normal"
 		self.stop_button["state"] = "normal"
 		self.step_once()
-		self.job = root.after(1000//self.speed_slider.get(), self.run_prog)
+		if not self.program.is_finished():
+			self.job = root.after(1000//self.speed_slider.get(), self.run_prog)
+		else:
+			self.job = None
 		
 	def stop_prog(self):
 		print(">Stopping program")
