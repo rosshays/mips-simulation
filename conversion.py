@@ -165,6 +165,12 @@ def convert_register_number(register):
 	elif register == "$ra" or register == "$31": return 31  #return ("11111", 31)
 	else: raise Exception("invalid register: " + register)
 
+def convert_regmem(regmem):
+	offset = regmem[:regmem.find("(")]
+	reg = regmem[regmem.find("(") + 1 : regmem.find(")")]
+	return reg, offset
+
+
 def convert_immediate(imm):
 	is_neg = bin(imm)[0] == '-'
 	if is_neg:
@@ -240,7 +246,7 @@ def convert_line(input_line, line_number, label_dict = None):
 
 	elif format == "J":
 		label_address = label_dict[tokens[1]]
-		instruction = instruction.replace("iiiiiiiiiiiiiiiiiiiiiiiiii", label_address)
+		instruction = instruction.replace("iiiiiiiiiiiiiiiiiiiiiiiiii", str(label_address))
 
 	else:
 		print("This should not happen.")

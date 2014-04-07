@@ -40,7 +40,12 @@ class Program:
 				self.machine_code.append(inst)
 				self.instructions.append(new_instruction)
 				counter += ins.Instruction.SIZE
+		self.inst_count = counter // 4
+
 			
+	def is_finished(self):
+		return self.pc // 4 >= self.inst_count
+
 	def step_once(self):
 		inst = self.instructions[self.pc // 4]
 		self.pc = inst.execute(self.pc, self.labels)

@@ -1,4 +1,3 @@
-# USES 4 SPACES FOR INDENTATION
 import conversion as conv
 
 class Instruction:
@@ -146,7 +145,7 @@ class Instruction:
 		# 	return ("000000sssssttttt0000000000011011", "R")
 
 		elif self.instruction == "j":         
-			return int(self.params[0])
+			return int(label_dict[self.params[0]])
 
 		elif self.instruction == "jal":       
 			return_addr = pc + Instruction.SIZE
@@ -160,8 +159,14 @@ class Instruction:
 			return ("100000ssssstttttiiiiiiiiiiiiiiii", "")
 		elif self.instruction == "lui":       
 			return ("001111-----tttttiiiiiiiiiiiiiiii", "")
+
 		elif self.instruction == "lw":        
-			return ("100011ssssstttttiiiiiiiiiiiiiiii", "")
+			p0 = conv.convert_register_number(self.params[0])
+			p1, offset = conv.convert_regmem(self.params[1])
+			addr = self.program.get_register(p1) + offset
+			x = self.program.get_stack().load_word(addr)
+			self.program.set_register(p0, x)
+			return pc + Instruction.SIZE
 
 		elif self.instruction == "mfhi":      
 			p0 = conv.convert_register_number(self.params[0])
@@ -247,9 +252,15 @@ class Instruction:
 		# 	return ("000000ssssstttttddddd00000100011", "")
 
 		elif self.instruction == "sw":        
-			return ("101011ssssstttttiiiiiiiiiiiiiiii", "")
-		elif self.instruction == "syscall":   
-			return ("000000--------------------001100", "")
+			p0 = conv.convert_register_number(self.params[0])
+			p1, offset = conv.convert_regmem(self.params[1])
+			addr = self.program.get_register(conv.convert_register_number(p1)) + int(offset)
+			val = self.program.get_register(p0)
+			x = self.program.get_stack().store_word(addr, val)
+			return pc + Instruction.SIZE
+
+		# elif self.instruction == "syscall":   
+		# 	return ("000000--------------------001100", "")
 
 		elif self.instruction == "xor":       
 			p0 = conv.convert_register_number(self.params[0])

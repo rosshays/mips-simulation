@@ -16,6 +16,7 @@ class MIPSApplication(tk.Frame):
 		root.resizable(0,0)
 		root.geometry("1100x500")
 		root.wm_title("MIPS Simulator")
+		self.job = None
 
 	def create_widgets(self):
 		# create menu
@@ -143,7 +144,6 @@ class MIPSApplication(tk.Frame):
 
 	def step_once(self):
 		print(">Stepping once")
-		self.reset_button["state"] = "normal"
 		self.program.step_once()
 		self.unlock_text()
 		self.update_stack()
@@ -152,19 +152,17 @@ class MIPSApplication(tk.Frame):
 	
 	def run_prog(self):
 		print(">Running program")
-		self.stop_button["state"] = "normal"
 		self.reset_button["state"] = "normal"
-		while not self.program.is_finished():
-			self.program.step_once()
-			self.unlock_text()
-			self.update_stack()
-			self.update_registers()
-			self.lock_text()
-			time.sleep(1 / self.speed_slider.get()) # sleep so the rate is right
+		self.stop_button["state"] = "normal"
+		self.step_once()
+		self.job = root.after(1000//self.speed_slider.get(), self.run_prog)
 		
 	def stop_prog(self):
 		print(">Stopping program")
 		self.stop_button["state"] = "disabled"
+		if self.job is not None:
+			root.after_cancel(self.job)
+			self.job = None
 		
 	def reset(self):
 		print(">Resetting simulator")
@@ -178,6 +176,7 @@ class MIPSApplication(tk.Frame):
 
 	def load_input_file(self):
 		filename = self.get_file()
+		if filename == None: return
 		lines = self.get_lines(filename)
 		self.program = mips.Program(lines)
 		self.unlock_text()
