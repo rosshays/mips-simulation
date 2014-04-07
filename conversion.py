@@ -196,7 +196,7 @@ def convert_immediate(imm):
                 bin_str = bin_str[:i] + "0" + bin_str[i + 1:]           
     return bin_str
 
-def convert_line(input_line, label_dict = None):
+def convert_line(input_line, line_number, label_dict = None):
     # get the tokens of our input line
     tokens = input_line.split("#")[0].split()
     tokens = [i.split(",")[0] for i in tokens]
@@ -204,13 +204,18 @@ def convert_line(input_line, label_dict = None):
 
     # get rid of all the labels in the input line
     i = 0
-    labels = []
     while i < len(tokens):
-        if tokens[0].find(":") != -1:
-            labels.append(tokens[i])
-            tokens.pop(i)
+        if tokens[i].find(":") != -1:
+            new_label = tokens[i]
+            if new_label in label_dict:
+                raise Exception("label (" + new_label + ") declared twice")
+            else:
+                label_dict[new_label[:-1]] = line_number
+                tokens.pop(i)
         else:
             i += 1
+    if len(tokens) == 0:
+        return None
 
     instruction, format = convert_instruction(tokens[0])
 
@@ -220,9 +225,19 @@ def convert_line(input_line, label_dict = None):
         instruction = instruction.replace("ddddd", convert_register(tokens[1]))
 
     elif format == "I":
-        instruction = instruction.replace("sssss", convert_register(tokens[2]))
-        instruction = instruction.replace("ttttt", convert_register(tokens[1]))
-        instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(int(tokens[3])))
+        # special logic for branch instructions
+        if tokens[0][0] == 'b':
+            # figure out the offset (label_value - line_number)
+            offset = label_dict[tokens[3]] - line_number
+            instruction = instruction.replace("sssss", convert_register(tokens[1]))
+            instruction = instruction.replace("ttttt", convert_register(tokens[2]))
+            instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(offset))
+
+        # non branch instructions
+        else:
+            instruction = instruction.replace("sssss", convert_register(tokens[2]))
+            instruction = instruction.replace("ttttt", convert_register(tokens[1]))
+            instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(int(tokens[3])))
 
     elif format == "J":
         label_address = label_dict[tokens[1]]
@@ -231,4 +246,4 @@ def convert_line(input_line, label_dict = None):
     else:
         print("This should not happen.")
 
-    return (instruction, labels)
+    return instruction

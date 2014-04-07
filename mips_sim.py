@@ -33,13 +33,12 @@ class Program:
 
         counter = 0
         for line in source:
-            inst, found_labels = conv.convert_line(line, self.labels)
-            for label in found_labels:
-                self.labels[label] = counter
-            new_instruction = ins.Instruction(self, line)
-            self.machine_code.append(inst)
-            self.instructions.append(new_instruction)
-            counter += ins.Instruction.SIZE
+            inst = conv.convert_line(line, counter, self.labels)
+            if inst != None:
+                new_instruction = ins.Instruction(self, line)
+                self.machine_code.append(inst)
+                self.instructions.append(new_instruction)
+                counter += ins.Instruction.SIZE
             
     def get_all_registers(self):
         return self.registers
