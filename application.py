@@ -141,6 +141,8 @@ class MIPSApplication(tk.Frame):
 			output = "$" + str(regnum) + ":\t" + str(register) + "\n"
 			self.register_text.insert("end", output)
 			regnum += 1
+		self.register_text.insert("end", "$HI:\t" + str(self.program.get_hi()) + "\n")
+		self.register_text.insert("end", "$LO:\t" + str(self.program.get_lo()) + "\n")
 
 	def step_once(self):
 		print(">Stepping once")
