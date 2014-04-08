@@ -1,4 +1,5 @@
-# Sums integers from zero to ten
+# Adds integers 0 to 10
+# (Correct result is $s2 = 55)
 addi $s0, $zero, 10
 addi $s1, $zero, 1
 addi $s2, $zero, 0

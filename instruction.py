@@ -162,8 +162,9 @@ class Instruction:
 
 		elif self.instruction == "lw":        
 			p0 = conv.convert_register_number(self.params[0])
-			p1, offset = conv.convert_regmem(self.params[1])
-			addr = self.program.get_register(p1) + offset
+			reg, offset = conv.convert_regmem(self.params[1])
+			p1 = conv.convert_register_number(reg)
+			addr = self.program.get_register(p1) + int(offset)
 			x = self.program.get_stack().load_word(addr)
 			self.program.set_register(p0, x)
 			return pc + Instruction.SIZE

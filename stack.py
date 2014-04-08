@@ -1,8 +1,8 @@
 class Stack:
 
-	def __init__(self):
+	def __init__(self, start):
 		self.contents = {}
-		self.contents[0] = 0
+		self.contents[start] = "-----"
 
 	def get_contents(self):
 		return self.contents

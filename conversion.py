@@ -224,6 +224,8 @@ def convert_line(input_line, line_number, label_dict = None):
 	
 	RTypeOneArg = ["mfhi", "mflo"]
 	RTypeTwoArg = ["mult", "multu"]
+	
+	MemManip = ["sw", "lw", "sh", "sb"]
 
 
 	if format == "R":
@@ -250,7 +252,12 @@ def convert_line(input_line, line_number, label_dict = None):
 			offset = label_dict[tokens[2]] - line_number
 			instruction = instruction.replace("sssss", convert_register(tokens[1]))
 			instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(offset))
-
+		elif tokens[0] in MemManip:
+			instruction = instruction.replace("ttttt", convert_register(tokens[1]))
+			reg, offset = convert_regmem(tokens[2])
+			
+			instruction = instruction.replace("sssss", convert_register(reg))
+			instruction = instruction.replace("iiiiiiiiiiiiiiii", convert_immediate(int(offset)))
 		# non branch instructions
 		else:
 			instruction = instruction.replace("sssss", convert_register(tokens[2]))

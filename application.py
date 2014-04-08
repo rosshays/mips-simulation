@@ -32,16 +32,16 @@ class MIPSApplication(tk.Frame):
 		self.grid(column = 0, row = 0)
 		
 		# create text areas
-		self.input_text = tk.Text(self, width = 40, height = 35)
+		self.input_text = tk.Text(self, width = 43, height = 35)
 		self.input_text["background"] = "grey"
 		self.input_text.grid(column = 10, row = 0)
-		self.bin_text = tk.Text(self, width = 43, height = 35)
+		self.bin_text = tk.Text(self, width = 42, height = 35)
 		self.bin_text["background"] = "grey"
 		self.bin_text.grid(column = 15, row = 0)
-		self.stack_text = tk.Text(self, width = 25, height = 35)
+		self.stack_text = tk.Text(self, width = 24, height = 35)
 		self.stack_text["background"] = "grey"
 		self.stack_text.grid(column = 20, row = 0)
-		self.register_text = tk.Text(self, width = 20, height = 35)
+		self.register_text = tk.Text(self, width = 19, height = 35)
 		self.register_text["background"] = "grey"
 		self.register_text.grid(column = 25, row = 0)
 
@@ -107,7 +107,7 @@ class MIPSApplication(tk.Frame):
 		print(">Updating input")
 		i = 0
 		for line in lines:
-			content = str(i) + "\t" + str(line)
+			content = str(i) + ":\t" + str(line)
 			self.input_text.insert("end", content)
 			i += 1
 
@@ -115,7 +115,7 @@ class MIPSApplication(tk.Frame):
 		print(">Updating binary")
 		i = 0
 		for line in self.program.machine_code:
-			content = str(hex(i)) + "\t" + str(line)
+			content = str(hex(i)) + ":\t" + str(line)
 			self.bin_text.insert("end", content + "\n")
 			i += 4
 
@@ -124,10 +124,14 @@ class MIPSApplication(tk.Frame):
 		self.stack_text.delete("1.0", "end")
 		stack = self.program.get_stack()
 		contents = stack.get_contents()
-		for item in contents:
+		sp = self.program.get_register(29)
+		if not(sp in contents):
+			stack.store_word(sp, "-----")
+		sorted_stack = sorted(contents, reverse = True)
+		for item in sorted_stack:
 			output = str(hex(item)) + ":\t" + str(contents[item])
 			self.stack_text.insert("end", output)
-			if(self.program.get_register(29) == item):
+			if(sp == item):
 				self.stack_text.insert("end", "\t<--$sp")
 			self.stack_text.insert("end", "\n")
 		

@@ -26,9 +26,10 @@ class Program:
 		self.instructions = []
 		self.machine_code = []
 		self.registers = [0] * 32
+		self.registers[29] = 0x1000
 		self.labels = {}
 		self.pc = 0
-		self.memory = stack.Stack()
+		self.memory = stack.Stack(self.registers[29])
 		self.hi = 0
 		self.lo = 0
 
@@ -70,8 +71,9 @@ class Program:
 
 	def reset(self):
 		self.registers = [0] * 32
+		self.registers[29] = 0x1000
 		self.pc = 0
-		self.memory = stack.Stack()
+		self.memory = stack.Stack(self.registers[29])
 		self.hi = 0
 		self.lo = 0
 

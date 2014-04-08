@@ -1,4 +1,5 @@
-# Produces ten factorial
+# Calculates 10 factorial
+# (Correct result is $s2 = 3628800)
 addi $s0, $zero, 10
 addi $s1, $zero, 1
 addi $s2, $zero, 1
