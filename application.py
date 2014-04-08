@@ -14,7 +14,7 @@ class MIPSApplication(tk.Frame):
 		self.create_widgets()
 		# default configuration of window
 		root.resizable(0,0)
-		root.geometry("1050x550")
+		root.geometry("1200x600")
 		root.wm_title("MIPS Simulator")
 		self.job = None
 
