@@ -215,6 +215,8 @@ class MIPSApplication(tk.Frame):
 		self.stop_button["state"] = "disabled"
 		self.program.reset()
 		self.unlock_text()
+		self.update_input()
+		self.update_bin()
 		self.update_stack()
 		self.update_registers()
 		self.lock_text()
