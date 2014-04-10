@@ -117,6 +117,7 @@ class MIPSApplication(tk.Frame):
 
 	def update_bin(self):
 		print(">Updating binary")
+		self.bin_text.delete("1.0", "end")
 		i = 0
 		for line in self.program.machine_code:
 			content = str(hex(i)) + ":\t" + str(line)
