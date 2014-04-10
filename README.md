@@ -1,4 +1,4 @@
-# MIPS SIMULATOR
+# MIPS Simulator
 
 ## Introduction
 The MIPS Simulator aims to provide a simple interface to allow MIPS programs to be tested on many platforms. The program is written in Python (v3.4) and has no further dependencies. An important thing to understand is that this program does not attempt to fully implement MIPS, but rather interprets a subset of MIPS instructions for quick testing.
