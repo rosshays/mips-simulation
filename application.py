@@ -103,13 +103,17 @@ class MIPSApplication(tk.Frame):
 				lines.append(line)
 		return lines
 
-	def update_input(self, lines):
-		print(">Updating input")
-		i = 1
-		for line in lines:
-			content = str(i) + ":\t" + str(line)
-			self.input_text.insert("end", content)
-			i += 1
+	def update_input(self, lines=None):
+		if lines != None:
+			print(">Updating input")
+			i = 1
+			for line in lines:
+				content = str(i) + ":\t" + str(line)
+				self.input_text.insert("end", content)
+				i += 1
+		else:
+			# highlight line indicated by the program counter
+			pass
 
 	def update_bin(self):
 		print(">Updating binary")
@@ -118,6 +122,20 @@ class MIPSApplication(tk.Frame):
 			content = str(hex(i)) + ":\t" + str(line)
 			self.bin_text.insert("end", content + "\n")
 			i += 4
+		# highlight line indicated by the program counter
+		self.highlight(self.bin_text, self.program.pc // 4)
+
+	# given a text area, highlight a given line
+	def highlight(self, textarea, line_number):
+		# remove previous highlighting
+		if "highlight" in textarea.tag_names():
+			textarea.tag_delete("highlight")
+
+		# now apply highlighting on given line
+		textarea.tag_add("highlight", str(line_number) + ".0", str(line_number) + ".end")
+		textarea.tag_config("highlight", background="yellow")
+		print("highlighting")
+
 
 	def update_stack(self):
 		print(">Updating stack")
@@ -153,6 +171,8 @@ class MIPSApplication(tk.Frame):
 		self.reset_button["state"] = "normal"
 		self.program.step_once()
 		self.unlock_text()
+		self.update_input()
+		self.update_bin()
 		self.update_stack()
 		self.update_registers()
 		self.lock_text()
