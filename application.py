@@ -117,14 +117,19 @@ class MIPSApplication(tk.Frame):
 
 	def update_bin(self):
 		print(">Updating binary")
+
+		# remove old contents and any highlighting bin_text may have had
 		self.bin_text.delete("1.0", "end")
+		if "highlight" in self.bin_text.tag_names():
+			self.bin_text.tag_delete("highlight")
+
 		i = 0
 		for line in self.program.machine_code:
 			content = str(hex(i)) + ":\t" + str(line)
 			self.bin_text.insert("end", content + "\n")
 			i += 4
 		# highlight line indicated by the program counter
-		self.highlight(self.bin_text, self.program.pc // 4)
+		self.highlight(self.bin_text, self.program.pc // 4 + 1)
 
 	# given a text area, highlight a given line
 	def highlight(self, textarea, line_number):
