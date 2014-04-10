@@ -57,15 +57,16 @@ displays the values contained in the $HI and $LO registers, which are used in
 multiplication and division.
 
 ## Limitations
-Given that the MIPS simulator was designed to run a subset of MIPS, some
-features have been omitted. The results of loading a program with
-unsupported instructions are undefined. The features/instructions that are
-unsupported are as follows: unsigned operations are not permitted, floating
-point operations are not permitted.
-Furthermore, the stack implemented by the simulator does not perfectly mimic a
-real-world stack. Rather than storing the program contents and the stack in the
-same contiguous portion of memory, the stack is allocated separately. While this
-does allow the same basic interactions normally seen with a stack, it does not
+Given that the MIPS simulator was designed to run a subset of MIPS, some 
+features have been omitted. The results of loading a program with unsupported 
+instructions are undefined. The features/instructions that are unsupported are 
+as follows: unsigned operations are not supported, floating point operations are
+not supported, system calls are not supported, parallelism is not supported 
+(ll/sc) and operations that load partial register data are not supported. 
+Furthermore, the stack implemented by the simulator does not perfectly mimic a 
+real-world stack. Rather than storing the program contents and the stack in the 
+same contiguous portion of memory, the stack is allocated separately. While this 
+does allow the same basic interactions normally seen with a stack, it does not 
 have the ability to fail in all cases a real stack would. For example, the stack
-will never overflow as it has no hard limit on size, it merely depends on the
+will never overflow as it has no hard limit on size, it merely depends on the 
 memory of the machine the simulator is running on.
