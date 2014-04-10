@@ -91,18 +91,25 @@ class Program:
 			print("Error: invalid register")
 
 	def set_hi(self, value):
+		# check that value will fit in register
+		assert(len(bin(value).replace("-", "")) <= 32)
 		self.hi = value
 
 	def get_hi(self):
 		return self.hi
 
 	def set_lo(self, value):
+		# check that value will fit in register
+		assert(len(bin(value).replace("-", "")) <= 32)
 		self.lo = value
 
 	def get_lo(self):
 		return self.lo
 
 	def set_register(self, reg, value):
+		# check that value will fit in register
+		assert(len(bin(value).replace("-", "")) <= 32)
+
 		regi = int(reg)
 		if(regi < 32 and regi > 0):
 			self.registers[regi] = value

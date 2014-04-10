@@ -225,17 +225,17 @@ class Instruction:
 		# elif self.instruction == "sb":        
 		# 	return ("101000ssssstttttiiiiiiiiiiiiiiii", "")
 
-		# elif self.instruction == "sll":       
-		# 	return ("000000ssssstttttdddddhhhhh000000")
+		elif self.instruction == "sll":       
+			return ("000000ssssstttttdddddhhhhh000000")
 
-		# elif self.instruction == "sllv":      
-		# 	return ("000000ssssstttttddddd-----000100")
+		elif self.instruction == "sllv":      
+			return ("000000ssssstttttddddd-----000100")
 		
-		# elif self.instruction == "slt":       
-		# 	return ("000000ssssstttttddddd00000101010", "")
+		elif self.instruction == "slt":       
+			return ("000000ssssstttttddddd00000101010", "")
 		
-		# elif self.instruction == "slti":      
-		# 	return ("001010ssssstttttiiiiiiiiiiiiiiii", "")
+		elif self.instruction == "slti":      
+			return ("001010ssssstttttiiiiiiiiiiiiiiii", "")
 		
 		# elif self.instruction == "sltiu":     
 		# 	return ("001011ssssstttttiiiiiiiiiiiiiiii", "")
@@ -246,14 +246,14 @@ class Instruction:
 		# elif self.instruction == "sltu":      
 		# 	return ("000000ssssstttttddddd00000101011", "")
 		
-		# elif self.instruction == "sra":       
-		# 	return ("000000-----tttttdddddhhhhh000011")
+		elif self.instruction == "sra":       
+			return ("000000-----tttttdddddhhhhh000011")
 		
-		# elif self.instruction == "srl":       
-		# 	return ("000000-----tttttdddddhhhhh000010")
+		elif self.instruction == "srl":       
+			return ("000000-----tttttdddddhhhhh000010")
 		
-		# elif self.instruction == "srlv":      
-		# 	return ("000000ssssstttttddddd00000000110", "")
+		elif self.instruction == "srlv":      
+			return ("000000ssssstttttddddd00000000110", "")
 
 		elif self.instruction == "sub":
 			p0 = conv.convert_register_number(self.params[0])
