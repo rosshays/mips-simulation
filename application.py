@@ -105,7 +105,7 @@ class MIPSApplication(tk.Frame):
 
 	def update_input(self, lines):
 		print(">Updating input")
-		i = 0
+		i = 1
 		for line in lines:
 			content = str(i) + ":\t" + str(line)
 			self.input_text.insert("end", content)
