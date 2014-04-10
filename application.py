@@ -111,9 +111,18 @@ class MIPSApplication(tk.Frame):
 				content = str(i) + ":\t" + str(line)
 				self.input_text.insert("end", content)
 				i += 1
-		else:
-			# highlight line indicated by the program counter
-			pass
+
+		# remove old contents and any highlighting bin_text may have had
+		if "highlight" in self.input_text.tag_names():
+			self.input_text.tag_delete("highlight")
+		# highlight line indicated by the program counter
+		# this takes a bit more work, because you need to account for labels 
+		# and the occasional empty line, so I store the line numbe in 
+		# instructions objects as a bit of a workaround
+		if not self.program.is_finished():
+			next_inst = self.program.instructions[self.program.pc // ins.Instruction.SIZE]
+			self.highlight(self.input_text, next_inst.line_number + 1)
+
 
 	def update_bin(self):
 		print(">Updating binary")
@@ -129,7 +138,7 @@ class MIPSApplication(tk.Frame):
 			self.bin_text.insert("end", content + "\n")
 			i += 4
 		# highlight line indicated by the program counter
-		self.highlight(self.bin_text, self.program.pc // 4 + 1)
+		self.highlight(self.bin_text, self.program.pc // ins.Instruction.SIZE + 1)
 
 	# given a text area, highlight a given line
 	def highlight(self, textarea, line_number):

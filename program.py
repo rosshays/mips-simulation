@@ -52,13 +52,15 @@ class Program:
 				addr_counter += ins.Instruction.SIZE
 
 		# now create instructions
+		line_counter = 0
 		for line in source:
 			inst = conv.convert_line(line, counter, self.labels)
 			if inst != None:
-				new_instruction = ins.Instruction(self, line)
+				new_instruction = ins.Instruction(self, line, line_counter)
 				self.machine_code.append(inst)
 				self.instructions.append(new_instruction)
 				counter += ins.Instruction.SIZE
+			line_counter += 1
 		self.inst_count = counter // 4
 
 			

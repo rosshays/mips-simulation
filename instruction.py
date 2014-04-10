@@ -3,9 +3,10 @@ import conversion as conv
 class Instruction:
 	SIZE = 4
 
-	def __init__(self, program, line):
+	def __init__(self, program, line, line_number):
 		self.program = program
 		self.line = line
+		self.line_number = line_number # used for highlighting later on
 
 		tokens = line.split("#")[0].split()
 		tokens = [i.split(",")[0] for i in tokens]
