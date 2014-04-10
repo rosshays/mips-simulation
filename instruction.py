@@ -154,7 +154,7 @@ class Instruction:
 			return label_dict[self.params[0]]
 
 		elif self.instruction == "jr":        
-			return self.get_register(conv.convert_register_number(self.params[0]))
+			return self.program.get_register(conv.convert_register_number(self.params[0]))
 
 		# elif self.instruction == "lb":        
 		# 	return ("100000ssssstttttiiiiiiiiiiiiiiii", "")

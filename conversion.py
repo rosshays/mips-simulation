@@ -229,7 +229,9 @@ def convert_line(input_line, line_number, label_dict = None):
 
 
 	if format == "R":
-		if(tokens[0] in RTypeTwoArg):
+		if (tokens[0] == "jr"):
+			instruction = instruction.replace("sssss", convert_register(tokens[1]))
+		elif(tokens[0] in RTypeTwoArg):
 			instruction = instruction.replace("ttttt", convert_register(tokens[2]))
 			instruction = instruction.replace("sssss", convert_register(tokens[1]))
 		elif(tokens[0] in RTypeOneArg):
